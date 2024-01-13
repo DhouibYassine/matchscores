@@ -1,0 +1,25 @@
+<mat-toolbar *ngIf="username" color="primary" class="toolbar">
+  <ul>
+      <button mat-icon-button routerLink=".." aria-label="Go back">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+  </ul>
+  <ul>
+    <li>
+      <a mat-button routerLink="/matchDay">MatchDay</a>
+    </li>
+  </ul>
+  <span class="spacer"></span>
+
+  <button class="user-button" mat-button [matMenuTriggerFor]="userMenu">
+    <mat-icon inline>account_circle</mat-icon>
+    {{ username }}
+  </button>
+
+  <mat-menu #userMenu="matMenu">
+    <button mat-menu-item (click)="logout()">Logout</button>
+  </mat-menu>
+</mat-toolbar>
+
+
+<router-outlet></router-outlet>

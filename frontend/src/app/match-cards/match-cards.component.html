@@ -1,0 +1,66 @@
+<ng-template #noDataTemplate>
+  <h1 class="not-available">No cards Available</h1>
+</ng-template>
+<main class="container mx-auto extend-padding">
+  <div class="title">
+    <h1 *ngIf="matchDay">
+      MatchDay Number {{ matchDay.id }}
+    </h1>
+    <h2>
+      For Season  {{ formattedStartDate }}-{{ formattedEndDate }}
+    </h2>
+  </div>
+  <div *ngIf="matchDay">
+    <div class="grid-contain" *ngIf="matches.length > 0; else noDataTemplate">
+      <ng-container *ngFor="let match of matches">
+        <mat-card class="example-card">
+          <mat-card-header>
+            <mat-card-title>
+              Match {{match.homeTeam.name}} VS {{match.awayTeam.name}}
+            </mat-card-title>
+            <mat-card-subtitle>
+              <p>Date : {{formattedDate}} </p>
+            </mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            <p>Stadium : {{match.stadium.name}} (capacity= {{match.stadium.capacity}})</p>
+            <p>Refree : {{match.refree.name}} </p>
+            <p>Spectators : {{match.spectator}}</p>
+          </mat-card-content>
+
+          <div *ngIf="match.goals.length>0">
+            <mat-card-header >
+              <mat-card-title>
+                Goals
+              </mat-card-title>
+            </mat-card-header>
+            <mat-card-content *ngFor="let goal of match.goals">
+              <p>Scored by {{ goal.scorer }} in {{goal.minute}}</p>
+            </mat-card-content>
+          </div>
+
+          <mat-card-header>
+            <mat-card-title>
+              Coaches
+            </mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <p>For {{match.homeTeam.name}} : {{match.homeTeam.coach.name}}</p>
+            <p>For {{match.awayTeam.name}} : {{match.awayTeam.coach.name}}</p>
+          </mat-card-content>
+
+          <mat-card-actions *ngIf="keycloakService.getUserRoles().includes('ADMIN')">
+            <button mat-button color="primary" (click)="edit(match.id)">edit
+              <mat-icon fontIcon="edit"></mat-icon>
+            </button>
+            <button mat-button color="warn" (click)="delete(match.id)">delete
+              <mat-icon fontIcon="delete"></mat-icon>
+            </button>
+          </mat-card-actions>
+        </mat-card>
+      </ng-container>
+    </div>
+
+  </div>
+</main>
+
